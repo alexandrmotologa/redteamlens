@@ -1,0 +1,59 @@
+{
+  "name": "redteamlens",
+  "version": "1.0.0",
+  "description": "Automated OWASP LLM Top 10 red teaming, adversarial attack fuzzer, and security compliance auditor for AI agents.",
+  "main": "dist/core/index.js",
+  "types": "dist/core/index.d.ts",
+  "bin": {
+    "redteamlens": "./bin/redteamlens.js"
+  },
+  "scripts": {
+    "build:studio": "vite build --config src/studio/vite.config.ts",
+    "build:core": "tsc -p tsconfig.json",
+    "build": "npm run build:studio && npm run build:core",
+    "dev:studio": "vite --config src/studio/vite.config.ts",
+    "start": "tsx src/cli/index.ts",
+    "studio": "tsx src/cli/index.ts studio",
+    "scan:demo": "tsx src/cli/index.ts scan --demo",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "red-teaming",
+    "llm-security",
+    "owasp-llm-top-10",
+    "adversarial-fuzzing",
+    "prompt-injection",
+    "ai-safety",
+    "security-scanner",
+    "devsecops"
+  ],
+  "author": "Alexandr Motologa",
+  "license": "MIT",
+  "dependencies": {
+    "cli-table3": "^0.6.5",
+    "commander": "^13.1.0",
+    "open": "^10.1.0",
+    "ora": "^8.2.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.9",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "puppeteer-core": "^25.14.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^4.0.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0",
+    "vitest": "^5.0.5"
+  },
+  "type": "module"
+}

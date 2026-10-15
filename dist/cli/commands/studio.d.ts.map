@@ -1,0 +1,1 @@
+{"version":3,"file":"studio.d.ts","sourceRoot":"","sources":["../../../src/cli/commands/studio.ts"],"names":[],"mappings":"AAIA,MAAM,WAAW,gBAAgB;IAC/B,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,IAAI,CAAC,EAAE,OAAO,CAAC;CAChB;AAED,wBAAsB,gBAAgB,CAAC,OAAO,EAAE,gBAAgB,GAAG,OAAO,CAAC,IAAI,CAAC,CAmC/E"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"demo-server.d.ts","sourceRoot":"","sources":["../../../src/cli/commands/demo-server.ts"],"names":[],"mappings":"AAIA,MAAM,WAAW,oBAAoB;IACnC,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,QAAQ,CAAC,EAAE,OAAO,CAAC;CACpB;AAED,wBAAgB,oBAAoB,CAAC,OAAO,EAAE,oBAAoB,GAAG,IAAI,CAwExE"}

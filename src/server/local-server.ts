@@ -76,6 +76,9 @@ export class LocalServer {
   stop(): Promise<void> {
     return new Promise(resolve => {
       if (this.server) {
+        if (typeof (this.server as any).closeAllConnections === 'function') {
+          (this.server as any).closeAllConnections();
+        }
         this.server.close(() => resolve());
       } else {
         resolve();

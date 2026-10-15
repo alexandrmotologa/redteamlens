@@ -49,11 +49,32 @@ The embedded visual dashboard provides real-time telemetry, OWASP category compl
   <img src="docs/images/redteamlens-dashboard.png" alt="RedTeamLens Studio Dashboard" width="100%" />
 </p>
 
+### Ad-Hoc Adversarial Playground
+Refine custom attack payloads interactively with real-time encoding mutations and signature trigger telemetry.
+
+<p align="center">
+  <img src="docs/images/redteamlens-playground.png" alt="RedTeamLens Ad-Hoc Playground" width="100%" />
+</p>
+
+### Audit Benchmark & Regression Tracker
+Track security evolutions across system prompt revisions, measuring exact score deltas and verifying that defensive fixes do not introduce new regressions.
+
+<p align="center">
+  <img src="docs/images/redteamlens-comparator.png" alt="RedTeamLens Audit Comparator" width="100%" />
+</p>
+
 ### Attack Payload Inspector
 Inspect exact prompt payloads dispatched to the model alongside the raw response received, matched signatures, and prompt hardening advice.
 
 <p align="center">
   <img src="docs/images/redteamlens-inspector.png" alt="RedTeamLens Attack Payload Inspector" width="100%" />
+</p>
+
+### Mobile Responsiveness
+RedTeamLens Studio is fully responsive across viewports, offering mobile-adapted navigation and touch-optimized controls on smartphones and tablets.
+
+<p align="center">
+  <img src="docs/images/redteamlens-mobile.png" alt="RedTeamLens Mobile Interface" width="400" />
 </p>
 
 ### Standalone HTML Compliance Report

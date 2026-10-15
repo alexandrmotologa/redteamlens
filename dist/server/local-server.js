@@ -64,6 +64,9 @@ export class LocalServer {
     stop() {
         return new Promise(resolve => {
             if (this.server) {
+                if (typeof this.server.closeAllConnections === 'function') {
+                    this.server.closeAllConnections();
+                }
                 this.server.close(() => resolve());
             }
             else {

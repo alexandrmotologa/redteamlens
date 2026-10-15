@@ -13,14 +13,14 @@ export const AuditComparatorView: React.FC = () => {
       const resBase = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetType: 'demo', hardened: false, limit: 30 })
+        body: JSON.stringify({ targetType: 'demo', hardened: false, limit: 12 })
       });
       const dataBase = await resBase.json();
 
       // Poll until done
       let baseReport: any = null;
-      for (let i = 0; i < 20; i++) {
-        await new Promise(r => setTimeout(r, 400));
+      for (let i = 0; i < 60; i++) {
+        await new Promise(r => setTimeout(r, 250));
         const check = await fetch(`/api/scan/${dataBase.scanId}`).then(r => r.json());
         if (check.isDone && check.report) {
           baseReport = check.report;
@@ -32,13 +32,13 @@ export const AuditComparatorView: React.FC = () => {
       const resComp = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetType: 'demo', hardened: true, limit: 30 })
+        body: JSON.stringify({ targetType: 'demo', hardened: true, limit: 12 })
       });
       const dataComp = await resComp.json();
 
       let compReport: any = null;
-      for (let i = 0; i < 20; i++) {
-        await new Promise(r => setTimeout(r, 400));
+      for (let i = 0; i < 60; i++) {
+        await new Promise(r => setTimeout(r, 250));
         const check = await fetch(`/api/scan/${dataComp.scanId}`).then(r => r.json());
         if (check.isDone && check.report) {
           compReport = check.report;

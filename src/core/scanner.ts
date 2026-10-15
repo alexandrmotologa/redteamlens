@@ -13,6 +13,7 @@ export interface ScanOptions {
   categories?: OwaspCategory[];
   severities?: SeverityLevel[];
   limit?: number;
+  customProbes?: AttackProbe[];
   concurrency?: number;
   mutations?: {
     cipher?: CipherType[];
@@ -43,7 +44,8 @@ export class ScannerEngine {
     let probes: AttackProbe[] = getFilteredProbes({
       categories: options.categories,
       severities: options.severities,
-      limit: options.limit
+      limit: options.limit,
+      customProbes: options.customProbes
     });
 
     // Apply mutations if requested

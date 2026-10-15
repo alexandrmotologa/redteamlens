@@ -15,6 +15,10 @@ export declare class OpenAiClientTarget implements TargetConnector {
     private systemPrompt?;
     private temperature;
     constructor(options: OpenAiClientOptions);
+    sendConversation(messages: Array<{
+        role: 'user' | 'assistant' | 'system';
+        content: string;
+    }>): Promise<TargetResponse>;
     sendPrompt(prompt: string): Promise<TargetResponse>;
 }
 //# sourceMappingURL=open-ai-client.d.ts.map

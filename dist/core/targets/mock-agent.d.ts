@@ -16,6 +16,10 @@ export declare class MockAgentTarget implements TargetConnector {
     private latencyMin;
     private latencyMax;
     constructor(options?: MockAgentOptions);
+    sendConversation(messages: Array<{
+        role: 'user' | 'assistant' | 'system';
+        content: string;
+    }>): Promise<TargetResponse>;
     sendPrompt(prompt: string): Promise<TargetResponse>;
 }
 //# sourceMappingURL=mock-agent.d.ts.map

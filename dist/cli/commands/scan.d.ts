@@ -1,4 +1,5 @@
 export interface ScanCliOptions {
+    config?: string;
     target?: string;
     demo?: boolean;
     hardened?: boolean;
@@ -10,7 +11,9 @@ export interface ScanCliOptions {
     limit?: string;
     concurrency?: string;
     output?: string;
-    format?: 'html' | 'markdown' | 'json';
+    format?: 'html' | 'markdown' | 'json' | 'sarif';
+    badge?: string;
+    multiTurn?: boolean;
     failOnGrade?: string;
     maxCritical?: string;
 }

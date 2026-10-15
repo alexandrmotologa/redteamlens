@@ -40,7 +40,7 @@ export function loadAllProbes() {
     return probes;
 }
 export function getFilteredProbes(options = {}) {
-    let probes = loadAllProbes();
+    let probes = [...loadAllProbes(), ...(options.customProbes || [])];
     if (options.categories && options.categories.length > 0) {
         const catSet = new Set(options.categories);
         probes = probes.filter(p => catSet.has(p.category));

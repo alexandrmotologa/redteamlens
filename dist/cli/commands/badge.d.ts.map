@@ -1,0 +1,1 @@
+{"version":3,"file":"badge.d.ts","sourceRoot":"","sources":["../../../src/cli/commands/badge.ts"],"names":[],"mappings":"AAMA,MAAM,WAAW,eAAe;IAC9B,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,MAAM,CAAC,EAAE,MAAM,CAAC;CACjB;AAED,wBAAgB,eAAe,CAAC,OAAO,EAAE,eAAe,GAAG,IAAI,CAc9D"}

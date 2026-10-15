@@ -4,6 +4,9 @@ import { runReportCommand } from './commands/report.js';
 import { runStudioCommand } from './commands/studio.js';
 import { runListProbesCommand } from './commands/list-probes.js';
 import { runDemoServerCommand } from './commands/demo-server.js';
+import { runPatchCommand } from './commands/patch.js';
+import { runCompareCommand } from './commands/compare.js';
+import { runBadgeCommand } from './commands/badge.js';
 
 const program = new Command();
 
@@ -17,6 +20,7 @@ program
   .command('scan')
   .description('Execute automated adversarial attack scan against target LLM or agent')
   .option('-t, --target <url>', 'Target endpoint URL (e.g. http://localhost:4000/chat)')
+  .option('--config <path>', 'Path to redteamlens.config.json configuration file')
   .option('--demo', 'Scan against built-in simulated test agent')
   .option('--hardened', 'Use hardened defense mode for demo target')
   .option('--openai', 'Scan OpenAI chat completions API')
@@ -26,8 +30,10 @@ program
   .option('-s, --severities <list>', 'Comma-separated severity levels (CRITICAL,HIGH,MEDIUM,LOW)')
   .option('-l, --limit <number>', 'Maximum number of probes to execute')
   .option('--concurrency <number>', 'Number of concurrent requests (default: 5)', '5')
-  .option('-o, --output <path>', 'Output file path (e.g. audit-report.html or audit-report.json)')
-  .option('-f, --format <format>', 'Output report format (html, markdown, json)')
+  .option('--multi-turn', 'Execute multi-turn conversational attack scenarios (Crescendo attacks)')
+  .option('-o, --output <path>', 'Output file path (e.g. audit-report.html or audit-report.sarif)')
+  .option('-f, --format <format>', 'Output report format (html, markdown, json, sarif)')
+  .option('--badge <path>', 'Generate SVG status badge from scan results (e.g. badge.svg)')
   .option('--fail-on-grade <grade>', 'Fail CI/CD build if grade is below threshold (A, B, C, D)')
   .option('--max-critical <number>', 'Fail CI/CD build if critical vulnerabilities exceed count')
   .action(async (options) => {
@@ -37,14 +43,47 @@ program
 // 2. report command
 program
   .command('report <inputFile>')
-  .description('Generate formatted HTML or Markdown report from a JSON scan result')
-  .option('-f, --format <format>', 'Output format: html or markdown', 'html')
+  .description('Generate formatted HTML, Markdown, or SARIF report from a JSON scan result')
+  .option('-f, --format <format>', 'Output format: html, markdown, or sarif', 'html')
   .option('-o, --output <path>', 'Output destination file path')
   .action(async (inputFile, options) => {
     await runReportCommand(inputFile, options);
   });
 
-// 3. studio command
+// 3. patch command (Prompt Auto-Patcher)
+program
+  .command('patch')
+  .description('Automatically harden a system prompt with XML isolation, canary tokens, and guardrails')
+  .requiredOption('-i, --input <file>', 'Input system prompt text file path')
+  .option('-o, --output <file>', 'Output hardened prompt file destination')
+  .option('-c, --canary <token>', 'Custom verification canary token')
+  .action((options) => {
+    runPatchCommand(options);
+  });
+
+// 4. compare command (Regression & Diff Tracker)
+program
+  .command('compare <baselineFile> <comparisonFile>')
+  .description('Compare two audit reports to detect security regressions and remediated vulnerabilities')
+  .option('-o, --output <path>', 'Save comparison diff report to file')
+  .option('-f, --format <format>', 'Output format: markdown or json', 'markdown')
+  .action((baselineFile, comparisonFile, options) => {
+    runCompareCommand(baselineFile, comparisonFile, options);
+  });
+
+// 5. badge command
+program
+  .command('badge')
+  .description('Generate an SVG status badge for GitHub READMEs or documentation')
+  .option('-s, --score <number>', 'Compliance score (0-100)')
+  .option('-g, --grade <grade>', 'Letter grade (A, B, C, D, F)', 'A')
+  .option('-l, --label <label>', 'Badge label text', 'OWASP LLM')
+  .option('-o, --output <path>', 'Output SVG file destination', 'redteamlens-badge.svg')
+  .action((options) => {
+    runBadgeCommand(options);
+  });
+
+// 6. studio command
 program
   .command('studio')
   .description('Launch the embedded React 19 visual security dashboard')
@@ -55,7 +94,7 @@ program
     await runStudioCommand(options);
   });
 
-// 4. list-probes command
+// 7. list-probes command
 program
   .command('list-probes')
   .description('List available adversarial attack probes in the corpus')
@@ -66,7 +105,7 @@ program
     runListProbesCommand(options);
   });
 
-// 5. demo-server command
+// 8. demo-server command
 program
   .command('demo-server')
   .description('Start a local standalone agent simulator server for testing')

@@ -138,16 +138,53 @@ npx redteamlens scan --demo --severities "CRITICAL"
 npx redteamlens studio --port 50096
 ```
 
-### CI/CD Quality Gates
+### CI/CD Quality Gates & SARIF Export
 
-Enforce security policies in automated pipelines with exit codes:
+Enforce security policies in automated pipelines with exit codes and GitHub Security tab integration:
 
 ```bash
 # Fail build if compliance grade is below B
 npx redteamlens scan --target "https://staging.internal/chat" --fail-on-grade "B"
 
-# Fail build if any critical vulnerabilities are detected
-npx redteamlens scan --target "https://staging.internal/chat" --max-critical 0
+# Fail build if any critical vulnerabilities are detected and output SARIF
+npx redteamlens scan \
+  --target "https://staging.internal/chat" \
+  --max-critical 0 \
+  --format sarif \
+  --output "results.sarif" \
+  --badge "docs/security-badge.svg"
+```
+
+### Multi-Turn Conversational Attack Chains (Crescendo)
+
+Execute stateful, progressive dialogue scenarios that establish trust and lead up to restricted token extraction:
+
+```bash
+npx redteamlens scan --demo --multi-turn
+```
+
+### Automated System Prompt Hardener
+
+Synthesize defensive XML boundaries, confidentiality non-disclosure rules, and canary token filters into existing system prompts:
+
+```bash
+npx redteamlens patch -i system-prompt.txt -o hardened-prompt.txt
+```
+
+### Audit Comparator & Regression Tracking
+
+Compare baseline and comparison audit JSON runs to identify resolved vulnerabilities and flag newly introduced regressions:
+
+```bash
+npx redteamlens compare baseline.json candidate.json -o comparison.md
+```
+
+### SVG Status Badge Generation
+
+Generate an SVG shield badge displaying current OWASP compliance grade and score:
+
+```bash
+npx redteamlens badge --score 96 --grade A --output badge.svg
 ```
 
 ---

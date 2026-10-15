@@ -1,0 +1,1 @@
+{"version":3,"file":"badge-generator.d.ts","sourceRoot":"","sources":["../../src/reports/badge-generator.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,+BAA+B,CAAC;AAE5D,MAAM,WAAW,YAAY;IAC3B,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,KAAK,CAAC,EAAE,WAAW,CAAC;IACpB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB;AAED,qBAAa,cAAc;IACzB,MAAM,CAAC,QAAQ,CAAC,OAAO,GAAE,YAAiB,GAAG,MAAM;CAuCpD"}

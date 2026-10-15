@@ -9,6 +9,7 @@ export interface ScanOptions {
     categories?: OwaspCategory[];
     severities?: SeverityLevel[];
     limit?: number;
+    customProbes?: AttackProbe[];
     concurrency?: number;
     mutations?: {
         cipher?: CipherType[];

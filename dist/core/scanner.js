@@ -21,7 +21,8 @@ export class ScannerEngine {
         let probes = getFilteredProbes({
             categories: options.categories,
             severities: options.severities,
-            limit: options.limit
+            limit: options.limit,
+            customProbes: options.customProbes
         });
         // Apply mutations if requested
         if (options.mutations) {

@@ -52,10 +52,11 @@ export interface ProbeFilterOptions {
   categories?: OwaspCategory[];
   severities?: SeverityLevel[];
   limit?: number;
+  customProbes?: AttackProbe[];
 }
 
 export function getFilteredProbes(options: ProbeFilterOptions = {}): AttackProbe[] {
-  let probes = loadAllProbes();
+  let probes = [...loadAllProbes(), ...(options.customProbes || [])];
 
   if (options.categories && options.categories.length > 0) {
     const catSet = new Set(options.categories);

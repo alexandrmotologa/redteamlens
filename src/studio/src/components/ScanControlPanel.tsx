@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Download, Settings, RefreshCw, Cpu, Globe, KeyRound } from 'lucide-react';
+import { Play, Download, Settings, RefreshCw, Cpu, Globe, KeyRound, Shield, MessageSquare } from 'lucide-react';
 
 interface ScanConfig {
   targetType: 'demo' | 'generic' | 'openai';
@@ -11,6 +11,7 @@ interface ScanConfig {
   model: string;
   categories: string[];
   concurrency: number;
+  multiTurn: boolean;
 }
 
 interface ScanControlPanelProps {
@@ -19,6 +20,8 @@ interface ScanControlPanelProps {
   progress: { completed: number; total: number };
   onDownloadHtml: () => void;
   onDownloadMarkdown: () => void;
+  onDownloadSarif: () => void;
+  onDownloadBadge: () => void;
   hasReport: boolean;
 }
 
@@ -28,6 +31,8 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
   progress,
   onDownloadHtml,
   onDownloadMarkdown,
+  onDownloadSarif,
+  onDownloadBadge,
   hasReport
 }) => {
   const [targetType, setTargetType] = useState<'demo' | 'generic' | 'openai'>('demo');
@@ -38,6 +43,7 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
   const [apiKey, setApiKey] = useState('');
   const [model, setModel] = useState('gpt-4o-mini');
   const [concurrency, setConcurrency] = useState(5);
+  const [multiTurn, setMultiTurn] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     'LLM01_PROMPT_INJECTION',
     'LLM02_SENSITIVE_DISCLOSURE',
@@ -74,7 +80,8 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
       apiKey,
       model,
       categories: selectedCategories,
-      concurrency
+      concurrency,
+      multiTurn
     });
   };
 
@@ -87,27 +94,45 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
             Scanner Configuration & Dispatcher
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Configure target adapter, attack vector categories, and concurrency limit
+            Configure target adapter, adversarial battery parameters, and export compliance artifacts
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           {hasReport && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={onDownloadHtml}
-                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
+                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors border border-slate-700"
+                title="Download Standalone HTML Report"
               >
                 <Download className="w-3.5 h-3.5 text-cyan-400" />
-                HTML Report
+                HTML
               </button>
               <button
                 onClick={onDownloadMarkdown}
-                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-700"
+                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors border border-slate-700"
+                title="Download Markdown Report"
               >
                 <Download className="w-3.5 h-3.5 text-amber-400" />
                 Markdown
+              </button>
+              <button
+                onClick={onDownloadSarif}
+                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors border border-slate-700"
+                title="Download SARIF 2.1.0 for GitHub Security"
+              >
+                <Download className="w-3.5 h-3.5 text-purple-400" />
+                SARIF
+              </button>
+              <button
+                onClick={onDownloadBadge}
+                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors border border-slate-700"
+                title="Download SVG Status Badge"
+              >
+                <Shield className="w-3.5 h-3.5 text-emerald-400" />
+                Badge
               </button>
             </div>
           )}
@@ -190,7 +215,7 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
       {/* Target Specific Settings */}
       <div className="mt-4 p-4 bg-slate-950/40 border border-slate-800/80 rounded-lg">
         {targetType === 'demo' && (
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-xs font-semibold text-slate-300">Simulator Defense Posture:</span>
               <p className="text-[11px] text-slate-400 mt-0.5">
@@ -277,29 +302,50 @@ export const ScanControlPanel: React.FC<ScanControlPanelProps> = ({
         )}
       </div>
 
-      {/* Category Checkboxes */}
-      <div className="mt-4">
-        <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-2">
-          Target OWASP LLM Categories
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {categories.map(cat => {
-            const isSelected = selectedCategories.includes(cat.id);
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => toggleCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
-                  isSelected
-                    ? 'bg-cyan-950/70 border-cyan-800/80 text-cyan-300'
-                    : 'bg-slate-950/40 border-slate-800 text-slate-500 hover:text-slate-400'
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
+      {/* Category Checkboxes and Multi-Turn Mode */}
+      <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <label className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-2">
+            Target OWASP LLM Categories
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {categories.map(cat => {
+              const isSelected = selectedCategories.includes(cat.id);
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => toggleCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+                    isSelected
+                      ? 'bg-cyan-950/70 border-cyan-800/80 text-cyan-300'
+                      : 'bg-slate-950/40 border-slate-800 text-slate-500 hover:text-slate-400'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Multi-Turn Mode Toggle */}
+        <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-2.5 flex items-center gap-3">
+          <MessageSquare className={`w-4 h-4 ${multiTurn ? 'text-amber-400' : 'text-slate-500'}`} />
+          <div>
+            <label className="text-xs font-semibold text-slate-200 flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={multiTurn}
+                onChange={e => setMultiTurn(e.target.checked)}
+                className="rounded border-slate-700 text-cyan-500 focus:ring-0"
+              />
+              Multi-Turn Conversational Chains (Crescendo)
+            </label>
+            <p className="text-[10px] text-slate-400">
+              Fires progressive 3-turn attack scenarios
+            </p>
+          </div>
         </div>
       </div>
     </div>
